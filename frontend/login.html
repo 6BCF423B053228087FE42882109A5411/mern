@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <style>
+        
+        * {
+box-sizing: border-box;
+font-family: Comic Sans MS;
+font-size: 14px;
+align-items: center;
+}
+body{
+  background: #53a3a8;
+}
+input {
+border: none;
+display: block;
+margin: 40px auto;
+transition: .7s;
+border-bottom: 1.5px solid #878b8c;
+padding: 7px 3px;
+width: 70%;
+background-color: rgb(253, 252, 250);
+}
+input::placeholder {
+color: rgb(12, 12, 12);
+font-size: 17px;
+}
+
+input:focus::placeholder {
+    opacity: 0
+};
+input:focus {
+  border-top: transparent;
+transition: 200ms;
+outline-style:none;
+box-shadow: 0 1px 0 #121213;
+
+}
+.container{
+    border-radius: 20px;
+    align-items: center;
+    padding: 20px;
+    margin: 20px;
+    width: 60%;
+    height: 60%;
+    border-color: black;
+    background-color: rgb(83, 82, 82);
+    box-shadow: #5b5c5c 2px;
+    
+    
+
+
+}
+
+.btn {
+    background-color: #08fded;
+    background-image: linear-gradient(315deg, #01201e 0%, #05fdd4 74%);
+    border: none;
+    z-index: 1;
+    height: 40px;
+    width: 90px;
+    border-radius: 20px;
+    }
+    .btn:after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    border-radius: 5px;
+    background-color: #93fdf8;
+    background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
+    box-shadow:
+    -7px -7px 20px 0px #fff9,
+    -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
+    transition: all 0.3s ease;
+    }
+    .btn:hover {
+    color: #fff;
+    }
+    .btn:hover:after {
+    top: 0;
+    height: 100%;
+    }
+    .btn:active {
+    top: 2px;
+    }
+  
+h1{
+    font-size: large;
+    background-color: #121213;
+    color: rgb(108, 247, 138);
+    
+}
+
+    </style>
+</head>
+<body> 
+    <center>
+    <div>
+        <div class="container"> 
+    <h1><marquee width="50%" direction="right">STAFF  LOGIN  👇 👇</marquee></h1>
+    <input type="text" id="username" placeholder="Username"><br>
+    <input type="password" id="password" placeholder="Password"><br>
+    <button class="btn" onclick="login()">LOGIN</button><br>
+    <br>
+    <button class="btn"><a href="homepage.html">HOME</a></button>
+
+</div>
+</div>
+
+
+    <script>
+        function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (username === "auxilium" && password === "bca25") {
+                localStorage.setItem("adminLoggedIn", "true");
+                window.location.href = "index.html"; // Redirect to scanner page
+            } else {
+                alert("Invalid credentials!");
+            }
+        }
+
+        // Redirect if already logged in
+        if (localStorage.getItem("adminLoggedIn") === "true") {
+            window.location.href = "index.html";
+        }
+    </script>
+    </center>
+</body>
+</html>

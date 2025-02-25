@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student History</title>
+
+    <style>
+        body {
+            background-image: url('./download.jpg');
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #history-container {
+            background-color: aqua;
+            margin-top: 20px;
+            display: inline-block;
+            text-align: left;
+            border: 2px solid #333;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        h1{
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Attendance History</h1>
+    <div id="history-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>Date</th>
+                    <th>Time In</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="history-body">
+                <!-- History data will be loaded here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const apiKey = "YOUR_MONGODB_DATA_API_KEY"; // Replace with your actual API key
+        const endpoint = "YOUR_MONGODB_DATA_API_ENDPOINT"; // Replace with your actual API endpoint
+
+        function fetchHistory() {
+            const requestData = {
+                dataSource: "Cluster0", // Replace with your cluster name
+                database: "studentDB",
+                collection: "students",
+                filter: {}
+            };
+
+            fetch(`${endpoint}/action/find`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "api-key": apiKey
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                const historyBody = document.getElementById("history-body");
+                historyBody.innerHTML = ""; // Clear previous data
+
+                data.documents.forEach(student => {
+                    const row = `<tr>
+                        <td>${student.studentId}</td>
+                        <td>${student.name}</td>
+                        <td>${student.class}</td>
+                        <td>${student.date}</td>
+                        <td>${student.timeIn}</td>
+                        <td>${student.status}</td>
+                    </tr>`;
+                    historyBody.innerHTML += row;
+                });
+            })
+            .catch(error => console.error("Error fetching history:", error));
+        }
+
+        // Fetch history when the page loads
+        document.addEventListener("DOMContentLoaded", fetchHistory);
+    </script>
+</body>
+</html>

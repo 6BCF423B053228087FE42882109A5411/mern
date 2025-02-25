@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details</title>
+
+    <style>
+        body {
+            background-image: url('./page.jpg');
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #details-container {
+            background-color: aqua;
+            display: inline-block;
+            text-align: left;
+            border: 2px solid #333;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        .label {
+            font-weight: bold;
+            width: 120px;
+        }
+        .value {
+            width: 200px;
+            padding: 5px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Details</h1>
+    <div id="details-container">
+        <div class="detail-row">
+            <span class="label">Student ID:</span> <span class="value" id="student-id">Loading...</span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Name:</span> <span class="value" id="name">Loading...</span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Class:</span> <span class="value" id="class">Loading...</span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Date:</span> <span class="value" id="date">Loading...</span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Time In:</span> <span class="value" id="time-in">Loading...</span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Status:</span> <span class="value" id="status">Loading...</span>
+        </div>
+    </div>
+
+    <script src="student.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Ensure students.js is loaded before accessing it
+            if (typeof students === "undefined") {
+                console.error("students.js not loaded");
+                document.getElementById("details-container").innerHTML = "<h2>Error loading student data</h2>";
+                return;
+            }
+
+            // Get the scanned register number from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const regNumber = urlParams.get("reg_number");
+
+            if (!regNumber) {
+                document.getElementById("details-container").innerHTML = "<h2>No Register Number Found</h2>";
+                return;
+            }
+
+            // Find the student details
+            const student = students.find(s => s.id === regNumber);
+
+            if (student) {
+                document.getElementById("student-id").textContent = student.id;
+                document.getElementById("name").textContent = student.name;
+                document.getElementById("class").textContent = student.class;
+
+                // Set current date and time dynamically
+                const now = new Date();
+                document.getElementById("date").textContent = now.toLocaleDateString();
+                document.getElementById("time-in").textContent = now.toLocaleTimeString();
+
+                // Determine status based on time
+                const lateThreshold = new Date();
+                lateThreshold.setHours(8, 30, 0); // Late if after 8:30 AM
+
+                document.getElementById("status").textContent = now > lateThreshold ? "Late" : "On Time";
+            } else {
+                document.getElementById("details-container").innerHTML = "<h2>Student Not Found</h2>";
+            }
+        });
+    </script>
+</body>
+</html>

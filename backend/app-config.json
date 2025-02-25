@@ -1,0 +1,8 @@
+{
+	"command": "node server.js",
+	"build_path": "C:\\Users\\shankar\\Desktop\\login\\today 2",
+	"stack": "node18",
+	"env_variables": {},
+	"memory": 256,
+	"scripts": {}
+}
